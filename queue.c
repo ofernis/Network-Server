@@ -134,6 +134,7 @@ int dequeueHead(Queue queue)
         queue->first=queue->first->next;
     }
     free(node);
+    node = NULL;
     queue->nodes_count--;
     return value;
 
@@ -160,22 +161,21 @@ QueueResult dequeueValue(Queue queue,int value)
     {
        if(node->value==value)
        {
-       
             if(prev==NULL)
             {
                 dequeueHead(queue);
             }
             else if(node->next==NULL)
             {
-                 queue->nodes_count--;
+                queue->nodes_count--;
                 queue->last=prev;
                 free(node);
             }
             else
             {
-                 queue->nodes_count--;
-            prev->next=node->next;
-            free(node);
+                queue->nodes_count--;
+                prev->next=node->next;
+                free(node);
             }
             return QUEUE_SUCCESS;
        }
@@ -190,13 +190,13 @@ QueueResult dequeueRandom(Queue queue)
 {
     if(queue->first==NULL)
     {
-        return QUEUE_DOES_NOT_EXSIST;
+        return QUEUE_EMPTY;
     }
     srand(time(NULL));
     Node node=queue->first;
-    for(int i = (queue->nodes_count != 1) ? rand() % queue->nodes_count : 0
+    for(int i = (queue->nodes_count > 1) ? rand() % queue->nodes_count : 0
                 ; i > 0
-                ;i--)
+                ; i--)
     {
         node=node->next;
     }
@@ -211,6 +211,7 @@ void queueDestroy(Queue queue)
 {
     if(queue->first==NULL)
     {
+        free(queue);
         return;
     }
     Node curr=queue->first, next1=curr->next;

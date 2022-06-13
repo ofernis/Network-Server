@@ -26,6 +26,13 @@ void testEnqueue(Queue q) {
         Enqueue(q, i + 1, tv);
     }
     queuePrint(queueCopy(q));
+
+    struct timeval tv;
+    tv.tv_sec = rand();
+    tv.tv_usec = rand();
+    if (Enqueue(q, 11, tv) == QUEUE_FULL) {
+        printf("Queue full recognized!\n");
+    }
 }
 
 void testRandomDequeue(Queue q) {
@@ -35,12 +42,17 @@ void testRandomDequeue(Queue q) {
     while (!isEmpty(q)) {
         printf("%d\n", dequeueRandom(q));
     }
+    if (dequeueRandom(q) == QUEUE_EMPTY) {
+        printf("EMPTY AFTER RANDOM\n"); //unexpected behavior after dequeue last one with dequeueRandom - error free(): double free detected in tcache 2
+    }
+
 }
 
 void testDequeue(Queue q) {
-    for (int i = 0; i < 5; ++i)
+    printf("X\n");
+    for (int i = 0; i < 5; ++i) {
         dequeueHead(q);
-
+        printf("Y\n");}
     queuePrint(queueCopy(q));
 
     for (int i = 0; i < 5; ++i) 
