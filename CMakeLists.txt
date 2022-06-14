@@ -5,7 +5,7 @@ include(CTest)
 enable_testing()
 
 add_executable(Queue_og queue.c queue_tests.c)
-
+add_executable(our_server queue.c request.c segel.c server.c)
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)

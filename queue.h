@@ -1,7 +1,6 @@
 #include <sys/time.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 
 typedef struct Queue_t *Queue;
 
@@ -25,6 +24,8 @@ int isEmpty(Queue queue);
 QueueResult Enqueue(Queue queue,int val,struct timeval time_of_arrival);
 
 Queue queueCopy(Queue queue);
+
+struct timeval getArrivalTime(Queue queue);
 
 int getSize(Queue queue);
 

@@ -67,17 +67,6 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
@@ -88,6 +77,17 @@ package: preinstall
 package/fast: package
 
 .PHONY : package/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
 
 # Special rule for the target package_source
 package_source:
@@ -142,6 +142,19 @@ preinstall/fast:
 depend:
 	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+#=============================================================================
+# Target rules for targets named our_server
+
+# Build rule for target.
+our_server: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 our_server
+.PHONY : our_server
+
+# fast build rule for target.
+our_server/fast:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/build
+.PHONY : our_server/fast
 
 #=============================================================================
 # Target rules for targets named Queue_og
@@ -526,6 +539,7 @@ queue.o: queue.c.o
 
 # target to build an object file
 queue.c.o:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/queue.c.o
 	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/queue.c.o
 .PHONY : queue.c.o
 
@@ -535,6 +549,7 @@ queue.i: queue.c.i
 
 # target to preprocess a source file
 queue.c.i:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/queue.c.i
 	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/queue.c.i
 .PHONY : queue.c.i
 
@@ -544,6 +559,7 @@ queue.s: queue.c.s
 
 # target to generate assembly for a file
 queue.c.s:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/queue.c.s
 	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/queue.c.s
 .PHONY : queue.c.s
 
@@ -574,6 +590,87 @@ queue_tests.c.s:
 	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/queue_tests.c.s
 .PHONY : queue_tests.c.s
 
+request.o: request.c.o
+
+.PHONY : request.o
+
+# target to build an object file
+request.c.o:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/request.c.o
+.PHONY : request.c.o
+
+request.i: request.c.i
+
+.PHONY : request.i
+
+# target to preprocess a source file
+request.c.i:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/request.c.i
+.PHONY : request.c.i
+
+request.s: request.c.s
+
+.PHONY : request.s
+
+# target to generate assembly for a file
+request.c.s:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/request.c.s
+.PHONY : request.c.s
+
+segel.o: segel.c.o
+
+.PHONY : segel.o
+
+# target to build an object file
+segel.c.o:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/segel.c.o
+.PHONY : segel.c.o
+
+segel.i: segel.c.i
+
+.PHONY : segel.i
+
+# target to preprocess a source file
+segel.c.i:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/segel.c.i
+.PHONY : segel.c.i
+
+segel.s: segel.c.s
+
+.PHONY : segel.s
+
+# target to generate assembly for a file
+segel.c.s:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/segel.c.s
+.PHONY : segel.c.s
+
+server.o: server.c.o
+
+.PHONY : server.o
+
+# target to build an object file
+server.c.o:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/server.c.o
+.PHONY : server.c.o
+
+server.i: server.c.i
+
+.PHONY : server.i
+
+# target to preprocess a source file
+server.c.i:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/server.c.i
+.PHONY : server.c.i
+
+server.s: server.c.s
+
+.PHONY : server.s
+
+# target to generate assembly for a file
+server.c.s:
+	$(MAKE) -f CMakeFiles/our_server.dir/build.make CMakeFiles/our_server.dir/server.c.s
+.PHONY : server.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -581,8 +678,9 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... test"
 	@echo "... package"
+	@echo "... test"
+	@echo "... our_server"
 	@echo "... Queue_og"
 	@echo "... ContinuousSubmit"
 	@echo "... ContinuousMemCheck"
@@ -620,6 +718,15 @@ help:
 	@echo "... queue_tests.o"
 	@echo "... queue_tests.i"
 	@echo "... queue_tests.s"
+	@echo "... request.o"
+	@echo "... request.i"
+	@echo "... request.s"
+	@echo "... segel.o"
+	@echo "... segel.i"
+	@echo "... segel.s"
+	@echo "... server.o"
+	@echo "... server.i"
+	@echo "... server.s"
 .PHONY : help
 
 

@@ -15,7 +15,7 @@ struct Queue_t
     Node last;
 };
 
-Queue queueCreate(int maxsize)
+Queue queueCreate(int max_size)
 {
     Queue new_queue = malloc(sizeof(*new_queue)); 
     if(new_queue==NULL)
@@ -25,7 +25,9 @@ Queue queueCreate(int maxsize)
     new_queue->nodes_count=0;
     new_queue->first=NULL;
     new_queue->last=NULL;
-    new_queue->max_size=maxsize;
+    new_queue->max_size=max_size;
+
+    return new_queue;
 }
 
 static Node createNode(int val,struct timeval time_of_arrival)
@@ -77,7 +79,8 @@ QueueResult Enqueue(Queue queue,int val,struct timeval time_of_arrival)
     return QUEUE_SUCCESS;
 }
 
-Queue queueCopy(Queue queue) {
+Queue queueCopy(Queue queue) 
+{
     if (queue == NULL) {
         return NULL;
     }
@@ -98,6 +101,11 @@ Queue queueCopy(Queue queue) {
     queue_cpy->nodes_count = queue->nodes_count;
     
     return queue_cpy;
+}
+
+struct timeval getArrivalTime(Queue queue) 
+{
+    return (isEmpty(queue) ? (struct timeval) { 0 } : queue->first->time_of_arrival);
 }
 
 int getSize(Queue queue)
@@ -152,10 +160,11 @@ int dequeueTail(Queue queue)
 }
 QueueResult dequeueValue(Queue queue,int value)
 {
-    if(queue->first==NULL)
+    if(isEmpty(queue))
     {
-        return QUEUE_DOES_NOT_EXSIST;
+        return QUEUE_EMPTY;
     }
+
     Node node=queue->first,prev=NULL;
     while(node!=NULL)
     {
@@ -192,7 +201,6 @@ QueueResult dequeueRandom(Queue queue)
     {
         return QUEUE_EMPTY;
     }
-    srand(time(NULL));
     Node node=queue->first;
     for(int i = (queue->nodes_count > 1) ? rand() % queue->nodes_count : 0
                 ; i > 0
