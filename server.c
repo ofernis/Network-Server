@@ -57,7 +57,7 @@ int *total_thread_count_arr;
 // HW3: Parse the new arguments too
 void getargs(int *port, int argc, char *argv[], int *num_of_workers, int *size_of_queue, char *schedule)
 {
-    if (argc < 5) {
+    if (argc < 5 ) {
 	fprintf(stderr, "Usage: %s <port>\n", argv[0]);
 	exit(1);
     }
@@ -83,9 +83,11 @@ void* thread_main_func(void *arguments) {
 
         struct timeval time_of_handling;
         gettimeofday(&time_of_handling, NULL);
-
+        struct timeval dispatch_interval;
+        timersub(&time_of_handling, &time_of_arrival, &dispatch_interval);
+        
         struct thread_stats_t thread_stats = { thread_index, total_thread_count_arr, static_thread_count_arr, dynamic_thread_count_arr };
-        struct stats_t stats = { time_of_arrival, time_of_handling, thread_stats };
+        struct stats_t stats = { time_of_arrival, dispatch_interval, thread_stats };
         requestHandle(curr_fd, stats);
         close(curr_fd);
 
