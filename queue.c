@@ -178,6 +178,7 @@ QueueResult dequeueValue(Queue queue,int value)
             {
                 queue->nodes_count--;
                 queue->last=prev;
+                prev->next=NULL;
                 free(node);
             }
             else

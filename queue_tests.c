@@ -25,7 +25,8 @@ void testEnqueue(Queue q) {
         tv.tv_usec = rand();
         Enqueue(q, i + 1, tv);
     }
-    queuePrint(queueCopy(q));
+    Queue cpy=queueCopy(q);
+    queuePrint(cpy);
 
     struct timeval tv;
     tv.tv_sec = rand();
@@ -33,6 +34,7 @@ void testEnqueue(Queue q) {
     if (Enqueue(q, 11, tv) == QUEUE_FULL) {
         printf("Queue full recognized!\n");
     }
+    queueDestroy(cpy);
 }
 
 void testRandomDequeue(Queue q) {
@@ -53,7 +55,8 @@ void testDequeue(Queue q) {
     for (int i = 0; i < 5; ++i) {
         dequeueHead(q);
         printf("Y\n");}
-    queuePrint(queueCopy(q));
+    Queue cpy=queueCopy(q);
+    queuePrint(cpy);
 
     for (int i = 0; i < 5; ++i) 
         dequeueHead(q);
@@ -65,6 +68,7 @@ void testDequeue(Queue q) {
     if (dequeueHead(q) == -1) {
         printf("Dequeue success!\n");
     }
+    queueDestroy(cpy);
 }
 
 void testDestroyQueue(Queue q) {
@@ -78,6 +82,7 @@ void testBundle() {
     testRandomDequeue(q2);
     testDequeue(q1);
     testDestroyQueue(q1);
+    queueDestroy(q2);
 }
 
 int main() {
