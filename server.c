@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
                         continue;
                     }
                     else {
-                        int num_of_drop_reqs = (int) (((double) getSize(waiting_reqs_queue)) * ((double) 0.3)); //add ceil function, doesn't compile on make with -lm flag, why?
+                        int num_of_drop_reqs = (int) ceil(((double) getSize(waiting_reqs_queue)) * ((double) 0.3));
                         for (int i = 0; i < num_of_drop_reqs; ++i) {
                             if (isEmpty(waiting_reqs_queue)) {
                                 break;
