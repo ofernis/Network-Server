@@ -123,6 +123,7 @@ int main(int argc, char *argv[])
     for(int i = 0; i < num_of_workers; ++i) {
         static_thread_count_arr[i] = 0;
         dynamic_thread_count_arr[i] = 0;
+        total_thread_count_arr[i] = 0;
     }
 
     pthread_mutex_init(&m, NULL);
@@ -156,7 +157,7 @@ int main(int argc, char *argv[])
                         continue;
                     }
                     else {
-                        int num_of_drop_reqs = (int) ceil(((double) getSize(waiting_reqs_queue)) * ((double) 0.3));
+                        int num_of_drop_reqs = ceil(((double) getSize(waiting_reqs_queue)) * 0.3);
                         for (int i = 0; i < num_of_drop_reqs; ++i) {
                             if (isEmpty(waiting_reqs_queue)) {
                                 break;
