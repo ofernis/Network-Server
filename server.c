@@ -112,12 +112,6 @@ int main(int argc, char *argv[])
     waiting_reqs_queue = queueCreate(size_of_queue);
     curr_handled_reqs_queue = queueCreate(num_of_workers);
 
-    pthread_t *thread_arr = (pthread_t*) malloc(sizeof(*thread_arr) * num_of_workers);
-    for(int i = 0; i < num_of_workers; ++i) {
-        int thread_args = i; // verify correct args for "thread_main_func"
-        pthread_create(thread_arr + i, NULL, thread_main_func, (void*) &thread_args); //verify: thread_arr + i
-    }
-
     static_thread_count_arr = malloc(sizeof(*static_thread_count_arr) * num_of_workers);
     dynamic_thread_count_arr = malloc(sizeof(*dynamic_thread_count_arr) * num_of_workers);
     total_thread_count_arr = malloc(sizeof(*total_thread_count_arr) * num_of_workers);
@@ -126,6 +120,12 @@ int main(int argc, char *argv[])
         static_thread_count_arr[i] = 0;
         dynamic_thread_count_arr[i] = 0;
         total_thread_count_arr[i] = 0;
+    }
+
+    pthread_t *thread_arr = (pthread_t*) malloc(sizeof(*thread_arr) * num_of_workers);
+    for(int i = 0; i < num_of_workers; ++i) {
+        int thread_args = i; // verify correct args for "thread_main_func"
+        pthread_create(thread_arr + i, NULL, thread_main_func, (void*) &thread_args); //verify: thread_arr + i
     }
 
     pthread_mutex_init(&m, NULL);

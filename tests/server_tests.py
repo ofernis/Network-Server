@@ -7,7 +7,7 @@ import asyncio
 import requests_async as requests
 from h11 import RemoteProtocolError
 
-REQUEST_INTERVAL = 0
+REQUEST_INTERVAL = 0.01 #changed from 0
 STARTUP_DELAY = 0
 CONNECT_FAILED_DELAY = 0.2
 MAX_RETRIES = 3

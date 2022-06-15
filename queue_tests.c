@@ -25,7 +25,9 @@ void testEnqueue(Queue q) {
         tv.tv_usec = rand();
         Enqueue(q, i + 1, tv);
     }
-    queuePrint(queueCopy(q));
+    Queue q_print = queueCopy(q);
+    queuePrint(q_print);
+    queueDestroy(q_print);
 
     struct timeval tv;
     tv.tv_sec = rand();
@@ -49,10 +51,9 @@ void testRandomDequeue(Queue q) {
 }
 
 void testDequeue(Queue q) {
-    printf("X\n");
     for (int i = 0; i < 5; ++i) {
         dequeueHead(q);
-        printf("Y\n");}
+    }
     queuePrint(queueCopy(q));
 
     for (int i = 0; i < 5; ++i) 
@@ -78,6 +79,7 @@ void testBundle() {
     testRandomDequeue(q2);
     testDequeue(q1);
     testDestroyQueue(q1);
+    testDestroyQueue(q2);
 }
 
 int main() {
