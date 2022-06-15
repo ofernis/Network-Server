@@ -1,0 +1,1 @@
+/usr/bin/cc -g  -rdynamic CMakeFiles/our_server.dir/queue.c.o CMakeFiles/our_server.dir/request.c.o CMakeFiles/our_server.dir/segel.c.o CMakeFiles/our_server.dir/server.c.o  -o our_server 

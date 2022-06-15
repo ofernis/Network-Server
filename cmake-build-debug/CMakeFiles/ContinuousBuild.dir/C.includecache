@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server/queue.c
+queue.h
+/mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server/queue.h
+
+/mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server/queue.h
+sys/time.h
+-
+stdlib.h
+-
+stdio.h
+-
+
+/mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server/queue_tests.c
+stdio.h
+-
+queue.h
+/mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server/queue.h
+

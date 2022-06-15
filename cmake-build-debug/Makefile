@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ofernis/Network-Server
+CMAKE_SOURCE_DIR = /mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ofernis/Network-Server/build
+CMAKE_BINARY_DIR = /mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -81,7 +81,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/ofernis/Network-Server/build/CPackSourceConfig.cmake
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server/cmake-build-debug/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -102,9 +102,9 @@ package/fast: package
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ofernis/Network-Server/build/CMakeFiles /home/ofernis/Network-Server/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server/cmake-build-debug/CMakeFiles /mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ofernis/Network-Server/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/galwe/OneDrive/Desktop/technion/hw3/Network-Server/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -133,17 +133,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Queue_og
+# Target rules for targets named ContinuousBuild
 
 # Build rule for target.
-Queue_og: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Queue_og
-.PHONY : Queue_og
+ContinuousBuild: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ContinuousBuild
+.PHONY : ContinuousBuild
 
 # fast build rule for target.
-Queue_og/fast:
-	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/build
-.PHONY : Queue_og/fast
+ContinuousBuild/fast:
+	$(MAKE) -f CMakeFiles/ContinuousBuild.dir/build.make CMakeFiles/ContinuousBuild.dir/build
+.PHONY : ContinuousBuild/fast
 
 queue.o: queue.c.o
 
@@ -151,7 +151,7 @@ queue.o: queue.c.o
 
 # target to build an object file
 queue.c.o:
-	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/queue.c.o
+	$(MAKE) -f CMakeFiles/ContinuousBuild.dir/build.make CMakeFiles/ContinuousBuild.dir/queue.c.o
 .PHONY : queue.c.o
 
 queue.i: queue.c.i
@@ -160,7 +160,7 @@ queue.i: queue.c.i
 
 # target to preprocess a source file
 queue.c.i:
-	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/queue.c.i
+	$(MAKE) -f CMakeFiles/ContinuousBuild.dir/build.make CMakeFiles/ContinuousBuild.dir/queue.c.i
 .PHONY : queue.c.i
 
 queue.s: queue.c.s
@@ -169,7 +169,7 @@ queue.s: queue.c.s
 
 # target to generate assembly for a file
 queue.c.s:
-	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/queue.c.s
+	$(MAKE) -f CMakeFiles/ContinuousBuild.dir/build.make CMakeFiles/ContinuousBuild.dir/queue.c.s
 .PHONY : queue.c.s
 
 queue_tests.o: queue_tests.c.o
@@ -178,7 +178,7 @@ queue_tests.o: queue_tests.c.o
 
 # target to build an object file
 queue_tests.c.o:
-	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/queue_tests.c.o
+	$(MAKE) -f CMakeFiles/ContinuousBuild.dir/build.make CMakeFiles/ContinuousBuild.dir/queue_tests.c.o
 .PHONY : queue_tests.c.o
 
 queue_tests.i: queue_tests.c.i
@@ -187,7 +187,7 @@ queue_tests.i: queue_tests.c.i
 
 # target to preprocess a source file
 queue_tests.c.i:
-	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/queue_tests.c.i
+	$(MAKE) -f CMakeFiles/ContinuousBuild.dir/build.make CMakeFiles/ContinuousBuild.dir/queue_tests.c.i
 .PHONY : queue_tests.c.i
 
 queue_tests.s: queue_tests.c.s
@@ -196,7 +196,7 @@ queue_tests.s: queue_tests.c.s
 
 # target to generate assembly for a file
 queue_tests.c.s:
-	$(MAKE) -f CMakeFiles/Queue_og.dir/build.make CMakeFiles/Queue_og.dir/queue_tests.c.s
+	$(MAKE) -f CMakeFiles/ContinuousBuild.dir/build.make CMakeFiles/ContinuousBuild.dir/queue_tests.c.s
 .PHONY : queue_tests.c.s
 
 # Help Target
@@ -207,7 +207,7 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... Queue_og"
+	@echo "... ContinuousBuild"
 	@echo "... package_source"
 	@echo "... package"
 	@echo "... queue.o"

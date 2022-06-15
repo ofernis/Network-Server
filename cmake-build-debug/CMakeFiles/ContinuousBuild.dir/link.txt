@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/ContinuousBuild.dir/queue.c.o CMakeFiles/ContinuousBuild.dir/queue_tests.c.o  -o ContinuousBuild 
