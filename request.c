@@ -125,9 +125,9 @@ void requestServeDynamic(int fd, char *filename, char *cgiargs, struct stats_t s
    sprintf(buf, "%sStat-Thread-Id:: %d\r\n", buf, id);
    sprintf(buf, "%sStat-Thread-Count:: %d\r\n", buf, stats.handler_thread_stats.handler_thread_req_count[id]);
    sprintf(buf, "%sStat-Thread-Static:: %d\r\n", buf, stats.handler_thread_stats.handler_thread_static_req_count[id]);
-   sprintf(buf, "%sStat-Thread-Dynamic:: %d\r\n\r\n", buf, stats.handler_thread_stats.handler_thread_dynamic_req_count[id]);
+   sprintf(buf, "%sStat-Thread-Dynamic:: %d\r\n", buf, stats.handler_thread_stats.handler_thread_dynamic_req_count[id]);
    Rio_writen(fd, buf, strlen(buf));
-
+   
    if (Fork() == 0) {
       /* Child process */
       Setenv("QUERY_STRING", cgiargs, 1);
