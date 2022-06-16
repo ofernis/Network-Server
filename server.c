@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
 
     pthread_t *thread_arr = (pthread_t*) malloc(sizeof(*thread_arr) * num_of_workers);
     for(int i = 0; i < num_of_workers; ++i) {
-        int thread_args[1] = {i}; // verify correct args for "thread_main_func"
+        int thread_args[1] = {i};
         pthread_create(thread_arr + i, NULL, thread_main_func, (void*) thread_args);
     }
 
