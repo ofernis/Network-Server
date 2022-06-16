@@ -29,6 +29,7 @@ void requestError(int fd, char *cause, char *errnum, char *shortmsg, char *longm
    sprintf(buf, "Content-Length: %lu\r\n", strlen(body));
    Rio_writen(fd, buf, strlen(buf));
    printf("%s", buf);
+   strcpy(buf, "");
 
    sprintf(buf, "%sStat-Req-Arrival:: %lu.%06lu\r\n", buf, stats.arrival_time.tv_sec, stats.arrival_time.tv_usec);
    sprintf(buf, "%sStat-Req-Dispatch:: %lu.%06lu\r\n", buf, stats.dispatch_interval.tv_sec, stats.dispatch_interval.tv_usec);
@@ -201,29 +202,26 @@ void requestHandle(int fd, struct stats_t stats)
    requestReadhdrs(&rio);
 
    is_static = requestParseURI(uri, filename, cgiargs);
+   stats.handler_thread_stats.handler_thread_req_count[id]++;
    if (stat(filename, &sbuf) < 0) {
-      stats.handler_thread_stats.handler_thread_req_count[id]++;
       requestError(fd, filename, "404", "Not found", "OS-HW3 Server could not find this file", stats);
       return;
    }
 
    if (is_static) {
       if (!(S_ISREG(sbuf.st_mode)) || !(S_IRUSR & sbuf.st_mode)) {
-         stats.handler_thread_stats.handler_thread_req_count[id]++;
          requestError(fd, filename, "403", "Forbidden", "OS-HW3 Server could not read this file", stats);
          return;
       }
       stats.handler_thread_stats.handler_thread_static_req_count[id]++;
-      stats.handler_thread_stats.handler_thread_req_count[id]++;
       requestServeStatic(fd, filename, sbuf.st_size, stats);
    } else {
       if (!(S_ISREG(sbuf.st_mode)) || !(S_IXUSR & sbuf.st_mode)) {
-         stats.handler_thread_stats.handler_thread_req_count[id]++;
+         
          requestError(fd, filename, "403", "Forbidden", "OS-HW3 Server could not run this CGI program", stats);
          return;
       }
       stats.handler_thread_stats.handler_thread_dynamic_req_count[id]++;
-      stats.handler_thread_stats.handler_thread_req_count[id]++;
       requestServeDynamic(fd, filename, cgiargs, stats);
    }
 }

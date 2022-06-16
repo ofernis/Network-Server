@@ -36,10 +36,10 @@ def test_sanity(server_port):
 @pytest.mark.parametrize("threads, queue, amount, dispatches",
                          [
                              (2, 4, 4, [0,0,0.8,0.9]),
-                             (2, 4, 8, [0,0,0.8,0.9,1.2,1.3,1.4,1.5]),
-                             (4, 4, 8, [0,0,0,0,0,0,0,0,0]),
+                             (2, 4, 8, [0,0,0.8,0.9,1.8,1.5,2.4,1.8]),
+                             (4, 4, 8, [0,0,0,0,0.6,0.2,0.2,0.2,0.2]),
                              (4, 8, 8, [0,0,0,0,0.6,0.7,0.8,0.9]),
-                             (4, 8, 10, [0,0,0,0,0.6,0.7,0.8,0.9,1.4,1.5]),
+                             (4, 8, 10, [0,0,0,0,0.6,0.7,0.8,0.9,1.6,1.7]),
                          ])
 def test_load(threads, queue, amount, dispatches, server_port):
     with Server("./server", server_port, threads, queue, "block") as server:
