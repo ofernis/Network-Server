@@ -35,14 +35,24 @@ int getKeyFromStr(char *key) {
     return BAD_KEY;
 }
 
+
 Queue waiting_reqs_queue;
 Queue curr_handled_reqs_queue;
 pthread_mutex_t m;
 pthread_cond_t cond;
 pthread_cond_t blocking_cond;
-int *static_thread_count_arr;
-int *dynamic_thread_count_arr;
-int *total_thread_count_arr;
+int* static_thread_count_arr;
+int* dynamic_thread_count_arr;
+int* total_thread_count_arr;
+int* available_workers; 
+
+int findFirstAvailWorker(int num_of_workers) {
+    for(int i = 0; i < num_of_workers; ++i) {
+        if(available_workers[i] == 1)
+            return i;
+    }
+    return -1;
+}
 
 // 
 // server.c: A very, very simple web server
@@ -57,7 +67,7 @@ int *total_thread_count_arr;
 // HW3: Parse the new arguments too
 void getargs(int *port, int argc, char *argv[], int *num_of_workers, int *size_of_queue, char *schedule)
 {
-    if (argc < 5 ) {
+    if (argc < 5 || (getKeyFromStr(argv[4]) == BAD_KEY)) {
 	fprintf(stderr, "Usage: %s <port>\n", argv[0]);
 	exit(1);
     }
@@ -68,14 +78,16 @@ void getargs(int *port, int argc, char *argv[], int *num_of_workers, int *size_o
 }
 
 void* thread_main_func(void *arguments) {
-    int thread_index = ((int*)arguments)[0];
+    //int thread_index = ((int*)arguments)[0];
     while (1) {
         pthread_mutex_lock(&m);
 
         while (isEmpty(waiting_reqs_queue)) {
             pthread_cond_wait(&cond, &m);
         }
-        
+        int stat_index = findFirstAvailWorker(((int*)arguments)[1]);
+        available_workers[stat_index] = 0;
+
         struct timeval time_of_arrival = getArrivalTime(waiting_reqs_queue);
         int curr_fd = dequeueHead(waiting_reqs_queue);
         Enqueue(curr_handled_reqs_queue, curr_fd, time_of_arrival);
@@ -86,13 +98,14 @@ void* thread_main_func(void *arguments) {
         struct timeval dispatch_interval;
         timersub(&time_of_handling, &time_of_arrival, &dispatch_interval);
         
-        struct thread_stats_t thread_stats = { thread_index, total_thread_count_arr, static_thread_count_arr, dynamic_thread_count_arr };
+        struct thread_stats_t thread_stats = { stat_index, total_thread_count_arr, static_thread_count_arr, dynamic_thread_count_arr };
         struct stats_t stats = { time_of_arrival, dispatch_interval, thread_stats };
         requestHandle(curr_fd, stats);
         close(curr_fd);
 
         pthread_mutex_lock(&m);
         dequeueValue(curr_handled_reqs_queue, curr_fd);
+        available_workers[stat_index] = 1;
         pthread_cond_signal(&blocking_cond);
         pthread_mutex_unlock(&m);
     }
@@ -115,11 +128,13 @@ int main(int argc, char *argv[])
     static_thread_count_arr = malloc(sizeof(*static_thread_count_arr) * num_of_workers);
     dynamic_thread_count_arr = malloc(sizeof(*dynamic_thread_count_arr) * num_of_workers);
     total_thread_count_arr = malloc(sizeof(*total_thread_count_arr) * num_of_workers);
+    available_workers = malloc(sizeof(*available_workers) * num_of_workers);
 
     for(int i = 0; i < num_of_workers; ++i) {
         static_thread_count_arr[i] = 0;
         dynamic_thread_count_arr[i] = 0;
         total_thread_count_arr[i] = 0;
+        available_workers[i] = 1; 
     }
 
     pthread_mutex_init(&m, NULL);
@@ -128,7 +143,7 @@ int main(int argc, char *argv[])
 
     pthread_t *thread_arr = (pthread_t*) malloc(sizeof(*thread_arr) * num_of_workers);
     for(int i = 0; i < num_of_workers; ++i) {
-        int thread_args[1] = {i};
+        int thread_args[] = {i, num_of_workers};
         pthread_create(thread_arr + i, NULL, thread_main_func, (void*) thread_args);
     }
 
@@ -139,10 +154,10 @@ int main(int argc, char *argv[])
 
         pthread_mutex_lock(&m);
         //handle overload by policy
-        if (size_of_queue <= getSize(curr_handled_reqs_queue) + getSize(waiting_reqs_queue)) {
+        if (size_of_queue == getSize(curr_handled_reqs_queue) + getSize(waiting_reqs_queue)) {
             switch (getKeyFromStr(schedalg)) {
                 case BLOCK:
-                    while (size_of_queue <= getSize(curr_handled_reqs_queue) + getSize(waiting_reqs_queue)) {
+                    while (size_of_queue == getSize(curr_handled_reqs_queue) + getSize(waiting_reqs_queue)) {
                         pthread_cond_wait(&blocking_cond, &m);
                     }
                     break;

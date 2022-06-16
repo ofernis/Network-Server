@@ -1,5 +1,4 @@
 #include "queue.h"
-#include <sys/time.h>
 
 typedef struct node_t
 {
@@ -204,9 +203,6 @@ QueueResult dequeueRandom(Queue queue)
         return QUEUE_EMPTY;
     }
 
-    time_t time_var;
-    srand((unsigned) time(&time_var));
-
     Node node=queue->first;
     for(int i = (queue->nodes_count > 1) ? rand() % queue->nodes_count : 0
                 ; i > 0
@@ -216,7 +212,6 @@ QueueResult dequeueRandom(Queue queue)
     }
     int val_to_return = node->value;
     dequeueValue(queue, node->value);
-    //queue->nodes_count--;
     return val_to_return;
 }
 
