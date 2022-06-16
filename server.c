@@ -122,15 +122,15 @@ int main(int argc, char *argv[])
         total_thread_count_arr[i] = 0;
     }
 
-    pthread_t *thread_arr = (pthread_t*) malloc(sizeof(*thread_arr) * num_of_workers);
-    for(int i = 0; i < num_of_workers; ++i) {
-        int thread_args[1] = {i}; // verify correct args for "thread_main_func"
-        pthread_create(thread_arr + i, NULL, thread_main_func, (void*) thread_args); //verify: thread_arr + i
-    }
-
     pthread_mutex_init(&m, NULL);
     pthread_cond_init(&cond, NULL);
     pthread_cond_init(&blocking_cond, NULL);
+
+    pthread_t *thread_arr = (pthread_t*) malloc(sizeof(*thread_arr) * num_of_workers);
+    for(int i = 0; i < num_of_workers; ++i) {
+        int thread_args[1] = {i}; // verify correct args for "thread_main_func"
+        pthread_create(thread_arr + i, NULL, thread_main_func, (void*) thread_args);
+    }
 
     listenfd = Open_listenfd(port);
     while (1) {
